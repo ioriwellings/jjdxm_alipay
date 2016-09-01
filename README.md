@@ -26,10 +26,85 @@ or Gradle:
 
 	compile 'alipay:jjdxm-alipay:x.x.x'
 
+历史版本
+
+    compile 'alipay:jjdxm-alipay:1.0.1'   //alipaySdk-20160825.jar
+    compile 'alipay:jjdxm-alipay:1.0.0'   //alipaySdk.jar、alipaysecsdk.jar、alipayutdid.jar
+
 
 jjdxm-alipay requires at minimum Java 15 or Android 4.0.
 
 ## Get Started ##
+
+支付宝2.0
+
+
+混淆参考
+
+    -dontshrink
+    -dontpreverify
+    -dontoptimize
+    -dontusemixedcaseclassnames
+
+    -flattenpackagehierarchy
+    -allowaccessmodification
+    -printmapping map.txt
+
+    -optimizationpasses 7
+    -verbose
+    -keepattributes Exceptions,InnerClasses
+    -dontskipnonpubliclibraryclasses
+    -dontskipnonpubliclibraryclassmembers
+    -ignorewarnings
+
+    -keep public class * extends android.app.Activity
+    -keep public class * extends android.app.Application
+    -keep public class * extends android.app.Service
+    -keep public class * extends android.content.BroadcastReceiver
+    -keep public class * extends android.content.ContentProvider
+    -keep public class * extends java.lang.Throwable {*;}
+    -keep public class * extends java.lang.Exception {*;}
+
+    -libraryjars libs/alipaySDK-20150610.jar
+
+    -keep class com.alipay.android.app.IAlixPay{*;}
+    -keep class com.alipay.android.app.IAlixPay$Stub{*;}
+    -keep class com.alipay.android.app.IRemoteServiceCallback{*;}
+    -keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
+    -keep class com.alipay.sdk.app.PayTask{ public *;}
+    -keep class com.alipay.sdk.app.AuthTask{ public *;}
+
+
+    -keepclasseswithmembernames class * {
+        native <methods>;
+    }
+
+    -keepclasseswithmembers class * {
+        public <init>(android.content.Context, android.util.AttributeSet);
+    }
+
+    -keepclasseswithmembers class * {
+        public <init>(android.content.Context, android.util.AttributeSet, int);
+    }
+
+    -keepclassmembers class * extends android.app.Activity {
+       public void *(android.view.View);
+    }
+
+    -keepclassmembers enum * {
+        public static **[] values();
+        public static ** valueOf(java.lang.String);
+    }
+
+    -keep class * implements android.os.Parcelable {
+      public static final android.os.Parcelable$Creator *;
+    }
+
+    # adding this in to preserve line numbers so that the stack traces
+    # can be remapped
+    -renamesourcefileattribute SourceFile
+    -keepattributes SourceFile,LineNumberTable
+
 ## More Actions ##
 
 ## ChangeLog ##

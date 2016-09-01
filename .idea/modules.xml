@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/jjdxm-alipay/jjdxm-tencent.iml" filepath="$PROJECT_DIR$/jjdxm-alipay/jjdxm-tencent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jjdxm-alipay/jjdxm-alipay.iml" filepath="$PROJECT_DIR$/jjdxm-alipay/jjdxm-alipay.iml" />
       <module fileurl="file://$PROJECT_DIR$/jjdxm_alipay.iml" filepath="$PROJECT_DIR$/jjdxm_alipay.iml" />
     </modules>
   </component>
