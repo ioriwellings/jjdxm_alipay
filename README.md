@@ -1,7 +1,9 @@
 # [jjdxm_alipay][project] #
 
 ## Introduction ##
-社会化第三方登录、分享实现流程
+针对支付宝提供移动支付SDK进行在线打包，上传到jcenter中心，方便在项目中快速接入，只需要使用compile命令就可以进行依赖
+
+官方sdk下载地址：[https://doc.open.alipay.com/doc2/detail.htm?treeId=54&articleId=104509&docType=1](https://doc.open.alipay.com/doc2/detail.htm?treeId=54&articleId=104509&docType=1)
 
 ## Screenshots ##
 
@@ -17,93 +19,70 @@
 Download or grab via Maven:
 
 	<dependency>
-	  <groupId>alipay</groupId>
+	  <groupId>com.dou361.alipay</groupId>
 	  <artifactId>jjdxm-alipay</artifactId>
 	  <version>x.x.x</version>
 	</dependency>
 
 or Gradle:
 
-	compile 'alipay:jjdxm-alipay:x.x.x'
+	compile 'com.dou361.alipay:jjdxm-alipay:x.x.x'
 
 历史版本
 
-    compile 'alipay:jjdxm-alipay:1.0.1'   //alipaySdk-20160825.jar
-    compile 'alipay:jjdxm-alipay:1.0.0'   //alipaySdk.jar、alipaysecsdk.jar、alipayutdid.jar
+    compile 'com.dou361.alipay:jjdxm-alipay:1.0.1'   //alipaySdk-20160825.jar 支付宝2.0
+    compile 'com.dou361.alipay:jjdxm-alipay:1.0.0'   //alipaySdk.jar、alipaysecsdk.jar、alipayutdid.jar
 
 
-jjdxm-alipay requires at minimum Java 15 or Android 4.0.
+jjdxm-alipay requires at minimum Java 9 or Android 2.3.
+
+
+[架包的打包引用以及冲突解决][jaraar]
+
+## Proguard ##
+
+根据你的混淆器配置和使用，您可能需要在你的proguard文件内配置以下内容：
+
+	-libraryjars libs/alipaySDK-20150602.jar
+	
+	-keep class com.alipay.android.app.IAlixPay{*;}
+	-keep class com.alipay.android.app.IAlixPay$Stub{*;}
+	-keep class com.alipay.android.app.IRemoteServiceCallback{*;}
+	-keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
+	-keep class com.alipay.sdk.app.PayTask{ public *;}
+	-keep class com.alipay.sdk.app.AuthTask{ public *;}
 
 ## Get Started ##
 
-支付宝2.0
+注册权限
 
+	<uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-混淆参考
+在商户应用工程的AndroidManifest.xml文件里面添加声明：
 
-    -dontshrink
-    -dontpreverify
-    -dontoptimize
-    -dontusemixedcaseclassnames
+	<activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+        </activity>
 
-    -flattenpackagehierarchy
-    -allowaccessmodification
-    -printmapping map.txt
+开始使用
+集成流程可以参考支付宝的官方文档
 
-    -optimizationpasses 7
-    -verbose
-    -keepattributes Exceptions,InnerClasses
-    -dontskipnonpubliclibraryclasses
-    -dontskipnonpubliclibraryclassmembers
-    -ignorewarnings
-
-    -keep public class * extends android.app.Activity
-    -keep public class * extends android.app.Application
-    -keep public class * extends android.app.Service
-    -keep public class * extends android.content.BroadcastReceiver
-    -keep public class * extends android.content.ContentProvider
-    -keep public class * extends java.lang.Throwable {*;}
-    -keep public class * extends java.lang.Exception {*;}
-
-    -libraryjars libs/alipaySDK-20150610.jar
-
-    -keep class com.alipay.android.app.IAlixPay{*;}
-    -keep class com.alipay.android.app.IAlixPay$Stub{*;}
-    -keep class com.alipay.android.app.IRemoteServiceCallback{*;}
-    -keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
-    -keep class com.alipay.sdk.app.PayTask{ public *;}
-    -keep class com.alipay.sdk.app.AuthTask{ public *;}
-
-
-    -keepclasseswithmembernames class * {
-        native <methods>;
-    }
-
-    -keepclasseswithmembers class * {
-        public <init>(android.content.Context, android.util.AttributeSet);
-    }
-
-    -keepclasseswithmembers class * {
-        public <init>(android.content.Context, android.util.AttributeSet, int);
-    }
-
-    -keepclassmembers class * extends android.app.Activity {
-       public void *(android.view.View);
-    }
-
-    -keepclassmembers enum * {
-        public static **[] values();
-        public static ** valueOf(java.lang.String);
-    }
-
-    -keep class * implements android.os.Parcelable {
-      public static final android.os.Parcelable$Creator *;
-    }
-
-    # adding this in to preserve line numbers so that the stack traces
-    # can be remapped
-    -renamesourcefileattribute SourceFile
-    -keepattributes SourceFile,LineNumberTable
+[https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7629140.0.0.csxZPs&treeId=193&articleId=105296&docType=1](https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7629140.0.0.csxZPs&treeId=193&articleId=105296&docType=1)
 
 ## More Actions ##
 
